@@ -32,7 +32,7 @@ src/
 
 数据库表设计：
 1. users表：id, owner, balance
-2. transactions表：id, owner, operation_type, amount, target_owner, created_time
+2. transactions表：id, owner, operation_type, amount, the_other_owner, created_time
 
 技术细节说明：
 
@@ -49,7 +49,7 @@ src/
 3. DAO层实现：
    - 使用PreparedStatement防止SQL注入
    - 实现CRUD基本操作
-   - 支持按条件查询交易记录（按用户、时间范围、操作类型）
+   - 支持按条件动态查询交易记录（按用户、时间范围、操作类型）
 
 4. Service层业务逻辑：
    - 转账操作需要同时更新两个账户余额
