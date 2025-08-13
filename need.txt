@@ -1,0 +1,31 @@
+功能需求
+
+创建账户：owner、balance（余额）。Mysql储存。
+
+create [owner] [balance] 
+
+存款
+
+save [owner] [amount]
+
+取款
+
+take [owner] [amount]
+
+转账
+
+trans [发送owner] [接收owner] [金额]
+
+记录流水：
+使用MySQL储存，包含完成时间、操作类型、金额、账户信息
+
+查询：
+查询某个账户
+find [owner]
+查询所有账户
+find 
+按owner，时间范围（精确到天）/操作类型（存/取/转入/转出）列出流水。
+这些参数都是可选参数，可以任意组合，可交换顺序
+日期格式例如：2025/01/01-2025/01/02
+history [owner] [startDate-endDate] [operation_type] 
+

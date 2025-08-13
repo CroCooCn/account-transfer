@@ -1,0 +1,71 @@
+使用Lombok和mysql交互
+用maven管理依赖
+
+项目文件结构：
+
+src/
+├── main/
+│   ├── java/
+│   │   └── com/
+│   │       └── bank/
+│   │           ├── model/
+│   │           │   ├── User.java              // 用户实体类
+│   │           │   └── Transaction.java       // 交易流水实体类
+│   │           ├── dao/
+│   │           │   ├── UserDao.java           // 用户数据访问接口
+│   │           │   ├── TransactionDao.java    // 交易流水数据访问接口
+│   │           │   └── impl/
+│   │           │       ├── UserDaoImpl.java   // 用户数据访问实现
+│   │           │       └── TransactionDaoImpl.java // 交易流水数据访问实现
+│   │           ├── service/
+│   │           │   ├── BankService.java       // 银行业务服务接口
+│   │           │   └── impl/
+│   │           │       └── BankServiceImpl.java // 银行业务服务实现
+│   │           ├── util/
+│   │           │   └── DatabaseUtil.java      // 数据库连接工具类
+│   │           └── Main.java                  // 主程序入口
+│   └── resources/
+│       ├── application.properties             // 数据库配置文件
+│       └── sql/
+│           └── init.sql                       // 数据库初始化脚本
+└── pom.xml                                    // Maven依赖配置
+
+数据库表设计：
+1. users表：id, owner, balance
+2. transactions表：id, owner, operation_type, amount, target_owner, created_time
+
+技术细节说明：
+
+1. 数据库连接管理：
+   - 使用JDBC连接MySQL数据库
+   - 连接池管理，避免频繁创建和关闭连接
+   - 事务管理，确保转账操作的原子性
+
+2. 实体类设计：
+   - User类：使用Lombok的@Data注解自动生成getter/setter
+   - Transaction类：记录交易类型（SAVE/TAKE/TRANSFER_OUT/TRANSFER_IN）
+   - 使用BigDecimal处理金额，避免浮点数精度问题
+
+3. DAO层实现：
+   - 使用PreparedStatement防止SQL注入
+   - 实现CRUD基本操作
+   - 支持按条件查询交易记录（按用户、时间范围、操作类型）
+
+4. Service层业务逻辑：
+   - 转账操作需要同时更新两个账户余额
+   - 使用数据库事务确保数据一致性
+   - 余额不足等业务异常处理
+
+5. 命令行交互：
+   - 解析用户输入命令
+   - 参数验证和格式检查
+   - 友好的错误提示信息
+
+6. 异常处理：
+   - 自定义业务异常类
+   - 数据库连接异常处理
+   - 输入参数验证异常
+
+7. 配置管理：
+   - 数据库连接信息配置化
+   - 支持不同环境配置切换
